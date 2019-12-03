@@ -1,6 +1,6 @@
-# vsce-gitkeep
+# Auto Gitkeep
 
-vsce-gitkeep is a VS Code extension that can automatically add .gitkeep file to empty directories, so that directory hieriarchy can be preserved for git commit.
+Auto Gitkeep is a VS Code extension that can automatically add .gitkeep file to empty directories, so that directory hieriarchy can be preserved for git commit.
 
 ## Features
 
@@ -11,6 +11,11 @@ vsce-gitkeep is a VS Code extension that can automatically add .gitkeep file to 
 5. A simple command is provided to enable the extension for non-git-repository workspace.
 
 ![features](features.gif)
+
+## Usage
+
+- For git repository workspace (with a `.git` folder), the extension is enabled automatically.
+- For other workspace, press `F1` and run command `Gitkeep Generate` to initialize the extension.
 
 ## Extension Settings
 

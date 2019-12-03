@@ -13,3 +13,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 - Enabled automatically for git repository workspace (with a `.git` folder).
 - Can detect `.gitignore` file changes and ignore directories listed in it.
 - A simple command is provided to enable the extension for non-git-repository workspace.
+
+## [1.0.1] - 2019-12-03
+### Changed
+- improve README.

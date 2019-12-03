@@ -2,7 +2,7 @@
 	"name": "vsce-gitkeep",
 	"displayName": "Auto Gitkeep",
 	"description": "Automatically add .gitkeep file to empty directories.",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"publisher": "RogerChi",
 	"license": "SEE LICENSE IN LICENSE",
 	"engines": {
