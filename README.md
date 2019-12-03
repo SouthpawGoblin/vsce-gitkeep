@@ -10,7 +10,7 @@ vsce-gitkeep is a VS Code extension that can automatically add .gitkeep file to 
 4. Can detect `.gitignore` file changes and ignore directories listed in it.
 5. A simple command is provided to enable the extension for non-git-repository workspace.
 
-[features](features.gif)
+![features](features.gif)
 
 ## Extension Settings
 
