@@ -60,15 +60,11 @@ export async function activate(context: vscode.ExtensionContext) {
 	});
 
 	/**
-	 * 1. if it's .gitkeep deleted, return
-	 * 2. if parent directory ignored, return
-	 * 3. if parent directory is empty after deletion, add .gitkeep
-	 * 4. if .gitignore deleted, clear ignore
+	 * 1. if parent directory ignored, return
+	 * 2. if parent directory is empty after deletion, add .gitkeep
+	 * 3. if .gitignore deleted, clear ignore
 	 */
 	fileWatcher.onDidDelete(async (e: vscode.Uri) => {
-		if (posix.basename(e.path) === '.gitkeep') {
-			return;
-		}
 		const dir = posix.dirname(e.path);
 		if (ig.ignores(e.fsPath.replace(folderUri.fsPath, '').slice(1))) {
 			return;
@@ -88,9 +84,24 @@ export async function activate(context: vscode.ExtensionContext) {
 	// The commandId parameter must match the command field in package.json
 	let disposable = vscode.commands.registerCommand('extension.gitkeepGen', () => {
 		// The code you place here will be executed every time your command is executed
+		// traverse workspace directories recursively and generate .gitkeep files if not ignored.
+		directoryGen(folderUri);
 
-		// Display a message box to the user
-		vscode.window.showInformationMessage('gitkeepGen!');
+		async function directoryGen(uri: vscode.Uri) {
+			if (uri.fsPath !== folderUri.fsPath && ig.ignores(uri.fsPath.replace(folderUri.fsPath, '').slice(1))) {
+				return;
+			}
+			const contents = await vscode.workspace.fs.readDirectory(uri);
+			if (contents.length === 0) {
+				await addGitkeep(uri.path);
+			} else {
+				contents.forEach(content => {
+					if (content[1] === vscode.FileType.Directory) {
+						directoryGen(uri.with({ path: posix.join(uri.path, content[0]) }));
+					}
+				});
+			}
+		}
 	});
 
 	context.subscriptions.push(disposable);

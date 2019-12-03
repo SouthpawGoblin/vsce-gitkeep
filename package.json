@@ -2,15 +2,22 @@
 	"name": "vsce-gitkeep",
 	"displayName": "Auto Gitkeep",
 	"description": "Automatically add .gitkeep file to empty directories.",
-	"version": "0.0.1",
+	"version": "1.0.0",
+	"publisher": "RogerChi",
+	"license": "SEE LICENSE IN LICENSE",
 	"engines": {
 		"vscode": "^1.39.0"
 	},
 	"categories": [
 		"Other"
 	],
+	"repository": {
+    "type": "git",
+    "url": "https://github.com/SouthpawGoblin/vsce-gitkeep.git"
+  },
 	"activationEvents": [
-		"workspaceContains:.git"
+		"workspaceContains:.git",
+		"onCommand:extension.gitkeepGen"
 	],
 	"main": "./out/extension.js",
 	"contributes": {

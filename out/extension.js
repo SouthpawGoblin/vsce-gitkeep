@@ -66,15 +66,11 @@ function activate(context) {
             }
         }));
         /**
-         * 1. if it's .gitkeep deleted, return
-         * 2. if parent directory ignored, return
-         * 3. if parent directory is empty after deletion, add .gitkeep
-         * 4. if .gitignore deleted, clear ignore
+         * 1. if parent directory ignored, return
+         * 2. if parent directory is empty after deletion, add .gitkeep
+         * 3. if .gitignore deleted, clear ignore
          */
         fileWatcher.onDidDelete((e) => __awaiter(this, void 0, void 0, function* () {
-            if (path_1.posix.basename(e.path) === '.gitkeep') {
-                return;
-            }
             const dir = path_1.posix.dirname(e.path);
             if (ig.ignores(e.fsPath.replace(folderUri.fsPath, '').slice(1))) {
                 return;
@@ -93,8 +89,26 @@ function activate(context) {
         // The commandId parameter must match the command field in package.json
         let disposable = vscode.commands.registerCommand('extension.gitkeepGen', () => {
             // The code you place here will be executed every time your command is executed
-            // Display a message box to the user
-            vscode.window.showInformationMessage('gitkeepGen!');
+            // traverse workspace directories recursively and generate .gitkeep files if not ignored.
+            directoryGen(folderUri);
+            function directoryGen(uri) {
+                return __awaiter(this, void 0, void 0, function* () {
+                    if (uri.fsPath !== folderUri.fsPath && ig.ignores(uri.fsPath.replace(folderUri.fsPath, '').slice(1))) {
+                        return;
+                    }
+                    const contents = yield vscode.workspace.fs.readDirectory(uri);
+                    if (contents.length === 0) {
+                        yield addGitkeep(uri.path);
+                    }
+                    else {
+                        contents.forEach(content => {
+                            if (content[1] === vscode.FileType.Directory) {
+                                directoryGen(uri.with({ path: path_1.posix.join(uri.path, content[0]) }));
+                            }
+                        });
+                    }
+                });
+            }
         });
         context.subscriptions.push(disposable);
         function updateIgnore(clear) {
