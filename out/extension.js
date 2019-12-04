@@ -51,7 +51,10 @@ function activate(context) {
             }
             const stat = yield vscode.workspace.fs.stat(e);
             if (stat.type === vscode.FileType.Directory) {
-                yield addGitkeep(e.path);
+                const contents = yield vscode.workspace.fs.readDirectory(e);
+                if (contents.length === 0) {
+                    yield addGitkeep(e.path);
+                }
             }
             else if (e.path.replace(folderUri.path, '') === '/.gitignore') {
                 ig = yield updateIgnore(false);

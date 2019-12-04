@@ -44,7 +44,10 @@ export async function activate(context: vscode.ExtensionContext) {
 		}
 		const stat = await vscode.workspace.fs.stat(e);
 		if (stat.type === vscode.FileType.Directory) {
-			await addGitkeep(e.path);
+			const contents = await vscode.workspace.fs.readDirectory(e);
+			if (contents.length === 0) {
+				await addGitkeep(e.path);
+			}
 		} else if (e.path.replace(folderUri.path, '') === '/.gitignore') {
 			ig = await updateIgnore(false);
 		}
