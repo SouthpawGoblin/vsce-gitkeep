@@ -17,3 +17,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [1.0.1] - 2019-12-03
 ### Changed
 - improve README.
+- add extension icon.
+
+## [1.0.2] - 2019-12-04
+### Fixed
+- issue #1.
+### Changed
+- new extension icon.

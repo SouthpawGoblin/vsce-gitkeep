@@ -33,11 +33,3 @@ This extension contributes the following settings:
 ## Known Issues
 
 Currently none.
-
-## Release Notes
-
-### 1.0.0
-
-Initial release.
-
-
